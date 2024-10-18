@@ -65,7 +65,6 @@ int main() {
     cin >> n >> m;
 
     vector<tuple<int, int, ll>> graph(n);
-    vector<int> h(n, 0);
 
     for (int i = 0; i < m; i++) {
 
