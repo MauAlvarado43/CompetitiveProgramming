@@ -72,7 +72,7 @@ class Queue {
             else {
 
                 Node<T> *temp = start;
-                start = start -> next;
+                start = temp -> next;
                 delete temp;
                 sz--;
 
@@ -81,11 +81,8 @@ class Queue {
         }
 
         T front() {
-            
-            if(empty()) 
-                return NULL;
-            else
-                return start -> value;
+            if(empty()) return NULL;
+            return start -> value;
         }
 
         size_t size() {
