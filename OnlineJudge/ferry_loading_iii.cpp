@@ -10,58 +10,60 @@ void solve() {
     int n, t, m;
     cin >> n >> t >> m;
 
-    int time = 0;
-    bool isLeft = true;
-
-    queue<pair<int, int>> left;
-    queue<pair<int, int>> right;
+    queue<pair<int, int>> left, right;
     vector<int> cars(m);
 
     for(int i = 0; i < m; i++) {
 
-        int _t;
-        cin >> _t;
+        int arrival_time;
+        cin >> arrival_time;
 
-        string s;
-        cin >> s;
+        string side;
+        cin >> side;
 
-        if(s == "left") 
-            left.push({_t, i});
-        else 
-            right.push({_t, i});
+        if(side == "left") left.push({ arrival_time, i });
+        else right.push({ arrival_time, i });
 
-    }    
+    }
 
-    while(!left.empty() || !right.empty()) { 
+    int current_time = 0;
+    bool is_left = true;
 
-        int curr = 0;
-        time = max(time, min(left.empty() ? INT_MAX : left.front().first, right.empty() ? INT_MAX : right.front().first));
+    while(!left.empty() || !right.empty()) {
 
-        if(isLeft) {
+        int next_time = INT_MAX;
 
-            while(!left.empty() && left.front().first <= time && curr < n) {
+        if(!left.empty())
+            next_time = min(next_time, left.front().first);
+            
+        if(!right.empty())
+            next_time = min(next_time, right.front().first);
 
-                cars[left.front().second] = time + t;
+        current_time = max(current_time, next_time);
+
+        int loaded = 0;
+
+        if(is_left) {
+
+            while(!left.empty() && left.front().first <= current_time && loaded < n) {
+                cars[left.front().second] = current_time + t;
                 left.pop();
-                curr++;
+                loaded++;
+            }
 
+        } 
+        else {
+
+            while(!right.empty() && right.front().first <= current_time && loaded < n) {
+                cars[right.front().second] = current_time + t;
+                right.pop();
+                loaded++;
             }
 
         }
-        else {
 
-            while(!right.empty() && right.front().first <= time && curr < n) {
-                
-                cars[right.front().second] = time + t;
-                right.pop();
-                curr++;
-
-            }  
-
-        }
-
-        time += t;
-        isLeft = !isLeft;
+        current_time += t;
+        is_left = !is_left;
 
     }
 
@@ -79,12 +81,8 @@ int main() {
     cin >> tt;
 
     while (tt--) {
-        
         solve();
-
-        if(tt > 0)
-            cout << "\n";
-            
+        if(tt > 0) cout << "\n";
     } 
 
     //auto end = chrono::high_resolution_clock::now();

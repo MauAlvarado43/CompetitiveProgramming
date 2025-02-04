@@ -26,10 +26,8 @@ void solve() {
         string s;
         cin >> s;
 
-        if(s == "left") 
-            left.push(_size / 100);
-        else 
-            right.push(_size / 100);
+        if(s == "left") left.push(_size / 100);
+        else right.push(_size / 100);
 
     } 
 
